@@ -21,6 +21,7 @@ namespace TeknologiThreads
             // TODO: Add your initialization logic here
 
             base.Initialize();
+
         }
 
         protected override void LoadContent()
@@ -29,7 +30,6 @@ namespace TeknologiThreads
 
             // TODO: use this.Content to load your game content here
         }
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -42,7 +42,7 @@ namespace TeknologiThreads
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Green);
 
             // TODO: Add your drawing code here
 
