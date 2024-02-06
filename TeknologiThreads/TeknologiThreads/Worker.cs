@@ -18,7 +18,7 @@ namespace TeknologiThreads
 
         public Worker()
         {
-        
+            this.rectangle
         }
 
         public void MoveToPoint(Building building)
