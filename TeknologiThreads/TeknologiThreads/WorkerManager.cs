@@ -14,6 +14,7 @@ namespace TeknologiThreads
     {
         public List<Farmer> Farmers = new List<Farmer>();
         public List<Miner> Miners = new List<Miner>();
+        public int workerWaiting;
 
         public WorkerManager(Windmill windmill, Goldmine goldmine, Townhall townhall)
         {
@@ -27,7 +28,7 @@ namespace TeknologiThreads
 
         public void GenerateMiner()
         {
-            Miner miner = new Miner();
+            
         }
 
         public List<Farmer> FarmerList
@@ -38,6 +39,10 @@ namespace TeknologiThreads
         public List<Miner> MinerList
         {
             get { return Miners; }
+        }
+        public int workersWaiting
+        {
+            get { return workerWaiting; }
         }
     }
 }

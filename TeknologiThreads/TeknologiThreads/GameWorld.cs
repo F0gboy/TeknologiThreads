@@ -22,7 +22,7 @@ namespace TeknologiThreads
         private Farmer farmer;
         private Miner miner;
 
-        private int gold = 100;
+        private SpriteFont font;
 
         public GameWorld()
         {
@@ -57,6 +57,8 @@ namespace TeknologiThreads
 
             townhall.texture = Content.Load<Texture2D>("townhall");
             townhall.rectangle = new Rectangle(700, 700, 250, 250);
+
+            font = Content.Load<SpriteFont>("font");
             
 
             // TODO: use this.Content to load your game content here
@@ -65,17 +67,42 @@ namespace TeknologiThreads
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
-            if (gold >= 100)
             {
-                Farmer farmer = new Farmer(windmill, townhall);
+                Exit();
+            }
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                Miner miner = new Miner(townhall, goldMine, workerManager);
+                miner.texture = Content.Load<Texture2D>("orc");
+                workerManager.Miners.Add(miner);
+                townhall.Gold -= 50;
+            }
+
+            if (townhall.Gold >= 20 && workerManager.FarmerList.Count < 5)
+            {
+                Farmer farmer = new Farmer(windmill, townhall, workerManager);
                 farmer.texture = Content.Load<Texture2D>("orc");
                 workerManager.Farmers.Add(farmer);
-                gold -= 100;
+                townhall.Gold -= 20;
             }
+
+            //if (townhall.Gold >= 100)
+            //{
+            //    foreach (var miners in workerManager.MinerList)
+            //    {
+            //        miners.CloseThread(miners.miner);
+            //    }
+
+            //    foreach (var farmer in workerManager.FarmerList)
+            //    {
+            //        farmer.CloseThread(farmer.farmer);
+            //    }
+
+            //    Exit();
+            //}
+
 
             base.Update(gameTime);
         }
@@ -99,6 +126,11 @@ namespace TeknologiThreads
             {
                 _spriteBatch.Draw(farmer.texture, farmer.rectangle, Color.White);
             }
+
+            _spriteBatch.DrawString(font, "Gold: " + townhall.Gold, new Vector2(10, 10), Color.White);
+            _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(200, 10), Color.White);
+            _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(400, 10), Color.White);
+            _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(600, 10), Color.White);
 
             _spriteBatch.End();
 
