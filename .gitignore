@@ -314,7 +314,3 @@ monodroid*.msi
 *.VC.opendb
 
 artifacts/
-
-.mgcb
-
-*.mgcb
