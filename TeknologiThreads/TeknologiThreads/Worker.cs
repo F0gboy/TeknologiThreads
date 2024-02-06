@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace TeknologiThreads
 {
-    internal class Worker
+    internal class Worker : GameObject
     {
         public int Cost;
         public int resourceGain;
         public int speed;
 
         public Worker()
+        {
+        
+        }
+
+        public void MoveToPoint(Building building)
         {
         
         }

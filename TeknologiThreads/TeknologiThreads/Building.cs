@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeknologiThreads
 {
-    internal class Building
+    internal class Building : GameObject
     {
         public int currentWorkers;
         public int maxWorkers;

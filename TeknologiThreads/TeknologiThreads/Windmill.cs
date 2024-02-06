@@ -8,5 +8,14 @@ namespace TeknologiThreads
 {
     internal class Windmill : Building
     {
+        public Windmill() 
+        {
+            
+        }
+
+        public void GenerateGrain(Farmer farmer)
+        {
+            // Produce flour
+        }
     }
 }

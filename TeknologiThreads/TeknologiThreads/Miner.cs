@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace TeknologiThreads
 {
-    internal class Miner
+    internal class Miner : Worker
     {
+        public Miner()
+        {
+        
+        }
+
+        public void GenerateGold(Building building)
+        {
+        
+        }
     }
 }
