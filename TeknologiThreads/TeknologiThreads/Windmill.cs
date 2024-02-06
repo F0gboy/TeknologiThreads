@@ -15,7 +15,7 @@ namespace TeknologiThreads
 
         public void GenerateGrain(Farmer farmer)
         {
-            // Produce flour
+            farmer.currentResources += 10;
         }
     }
 }

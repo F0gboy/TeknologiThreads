@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework
+using Microsoft.Xna.Framework;
 
 namespace TeknologiThreads
 {
@@ -17,11 +17,6 @@ namespace TeknologiThreads
         public GameObject()
         {
         
-        }
-
-        public override void LoadContent()
-        {
-            
         }
     }
 }

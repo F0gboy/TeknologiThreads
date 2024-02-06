@@ -8,5 +8,14 @@ namespace TeknologiThreads
 {
     internal class Goldmine : Building
     {
+        public Goldmine()
+        {
+            
+        }
+
+        public void GenerateGold(Miner miner)
+        {
+            miner.currentResources += 10;
+        }
     }
 }
