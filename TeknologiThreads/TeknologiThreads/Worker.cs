@@ -18,12 +18,31 @@ namespace TeknologiThreads
 
         public Worker()
         {
-            this.rectangle
+
+            this.rectangle = new Rectangle(
+                (int)(position.X - spriteSize.X / 2),
+                (int)(position.Y - spriteSize.Y / 2),
+                (int)spriteSize.X,
+                (int)spriteSize.Y);
+            if (this.rectangle.Intersects(Goldmine.rectangle)|| this.rectangle.Intersects(Windmill.rectangle)||this.rectangle.Intersects(Townhall.rectangle))
+            {
+                
+            }
+            
+            
         }
 
         public void MoveToPoint(Building building)
         {
         
+        }
+
+        public void OnCollision(GameObject other)
+        {
+            if (other is Building)
+            {
+                speed = 0;
+            }
         }
     }
 }

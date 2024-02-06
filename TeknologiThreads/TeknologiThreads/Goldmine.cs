@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace TeknologiThreads
 {
@@ -11,16 +13,17 @@ namespace TeknologiThreads
     {
         public Goldmine()
         {
-            
+            this.rectangle = new Rectangle(
+                (int)(position.X - spriteSize.X / 2),
+                (int)(position.Y - spriteSize.Y / 2),
+                (int)spriteSize.X,
+                (int)spriteSize.Y);
+            this.rectangle.Intersects(Worker.);
         }
 
         public void GenerateGold(Miner miner)
         {
             miner.currentResources += 10;
-        }
-        public Rectangle GoldMineRectangle
-        {
-            get { return this.rectangle; }
         }
     }
 }
