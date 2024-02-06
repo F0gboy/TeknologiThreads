@@ -8,9 +8,13 @@ namespace TeknologiThreads
 {
     internal class Miner : Worker
     {
-        public Miner()
-        {
+        Townhall townhall;
+        Goldmine goldmine;
 
+        public Miner(Townhall townhall, Goldmine goldmine)
+        {
+            this.townhall = townhall;
+            this.goldmine = goldmine;
         }
 
         public void GenerateGold(Building building)
