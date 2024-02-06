@@ -11,6 +11,7 @@ namespace TeknologiThreads
         public int Cost;
         public int resourceGain;
         public int speed;
+        public int currentResources;
 
         public Worker()
         {

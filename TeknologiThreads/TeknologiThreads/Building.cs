@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace TeknologiThreads
 {
     internal class Building : GameObject
     {
         public int currentWorkers;
-        public int maxWorkers;
+        public int maxWorkers = 5;
         public bool lockTaken;
         public int TaskTime;
+        public Object DoorLock = new Object();
 
         public Building() 
         {
