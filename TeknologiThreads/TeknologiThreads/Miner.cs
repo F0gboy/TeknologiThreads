@@ -10,12 +10,13 @@ namespace TeknologiThreads
     {
         public Miner()
         {
-        
+
         }
 
         public void GenerateGold(Building building)
         {
         
         }
+
     }
 }

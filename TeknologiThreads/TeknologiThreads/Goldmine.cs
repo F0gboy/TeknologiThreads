@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace TeknologiThreads
 {
@@ -16,6 +17,10 @@ namespace TeknologiThreads
         public void GenerateGold(Miner miner)
         {
             miner.currentResources += 10;
+        }
+        public Rectangle GoldMineRectangle
+        {
+            get { return this.rectangle; }
         }
     }
 }
