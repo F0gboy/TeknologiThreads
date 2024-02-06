@@ -20,6 +20,7 @@ namespace TeknologiThreads
             this.windmill = windmill;
             this.townhall = townhall;
 
+
             Thread farmer = new Thread(FarmerWork); 
             farmer.Start();
         }

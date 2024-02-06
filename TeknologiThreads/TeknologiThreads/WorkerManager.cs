@@ -27,7 +27,7 @@ namespace TeknologiThreads
 
         public void GenerateMiner()
         {
-            Miner miner = new Miner();
+            
         }
 
         public List<Farmer> FarmerList

@@ -17,7 +17,7 @@ namespace TeknologiThreads
                 (int)(position.Y - spriteSize.Y / 2),
                 (int)spriteSize.X,
                 (int)spriteSize.Y);
-            this.rectangle.Intersects(Worker);
+            
         }
 
         public void GenerateGrain(Farmer farmer)

@@ -24,10 +24,7 @@ namespace TeknologiThreads
                 (int)(position.Y - spriteSize.Y / 2),
                 (int)spriteSize.X,
                 (int)spriteSize.Y);
-            if (this.rectangle.Intersects(Goldmine.rectangle)|| this.rectangle.Intersects(Windmill.rectangle)||this.rectangle.Intersects(Townhall.rectangle))
-            {
-                
-            }
+            
             
             
         }

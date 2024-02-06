@@ -15,6 +15,10 @@ namespace TeknologiThreads
         {
             this.townhall = townhall;
             this.goldmine = goldmine;
+            if (this.rectangle.Intersects(goldmine.rectangle) ||  this.rectangle.Intersects(townhall.rectangle))
+            {
+
+            }
         }
 
         public void GenerateGold(Building building)
