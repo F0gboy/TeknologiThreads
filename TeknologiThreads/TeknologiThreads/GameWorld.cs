@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TeknologiThreads.Content;
@@ -47,16 +48,27 @@ namespace TeknologiThreads
 
             randomButton.Click += RandomButton_Click;
 
+            var wonderButton = new Button(Content.Load<Texture2D>("WonderButtonT1"), Content.Load<SpriteFont>("File"))
+            {
+                Position = new Vector2(1100, 900),
+                Text= ""
+            };
 
-          
+            wonderButton.Click += WonderButton_Click; 
 
             _button = new List<Button>()
             {
-               randomButton 
+               randomButton,
+               wonderButton
             };
 
            
             
+        }
+
+        private void WonderButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void RandomButton_Click(object sender, System.EventArgs e)
@@ -69,6 +81,11 @@ namespace TeknologiThreads
                 Exit();
 
             // TODO: Add your update logic here
+
+            foreach (var button in _button)
+                button.Update(gameTime);
+
+            
 
             base.Update(gameTime);
         }
