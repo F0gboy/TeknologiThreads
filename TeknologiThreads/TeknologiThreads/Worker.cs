@@ -18,14 +18,6 @@ namespace TeknologiThreads
 
         public Worker()
         {
-
-            this.rectangle = new Rectangle(
-                (int)(position.X - spriteSize.X / 2),
-                (int)(position.Y - spriteSize.Y / 2),
-                (int)spriteSize.X,
-                (int)spriteSize.Y);
-            
-            
             
         }
 

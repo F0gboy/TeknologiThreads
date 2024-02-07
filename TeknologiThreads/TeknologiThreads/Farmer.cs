@@ -13,27 +13,59 @@ namespace TeknologiThreads
     {
         Windmill windmill;
         Townhall townhall;
+        WorkerManager workerManager;
+        public Thread farmer;
 
-        public Farmer(Windmill windmill, Townhall townhall) 
+        public Farmer(Windmill windmill, Townhall townhall, WorkerManager workerManager) 
         {
             this.rectangle = new Rectangle(700, 700, 100, 100);
             this.windmill = windmill;
             this.townhall = townhall;
+            this.workerManager = workerManager;
 
-
-            Thread farmer = new Thread(FarmerWork); 
+            farmer = new Thread(FarmerWork); 
             farmer.Start();
         }
 
         public void FarmerWork()
         {
-            //walk to the windmill
-            MoveToRectangle(windmill.rectangle);
-            windmill.GenerateGrain(this);
+            while (true)
+            {
+                // Move to windmill
+                MoveToRectangle(windmill.rectangle);
 
-            Thread.Sleep(5000);
+                workerManager.workerWaiting++;
+                lock (windmill.DoorLock) 
+                {
+                    workerManager.workerWaiting--;
+                    windmill.lockTaken = true;
+                    // Generate grain
+                    windmill.GenerateGrain(this);
 
-            MoveToRectangle(townhall.rectangle);
+                    // "Work"
+                    Thread.Sleep(5000);
+                    windmill.lockTaken = false;
+                }
+
+                // Move to townhall
+                MoveToRectangle(townhall.rectangle);
+
+                workerManager.workerWaiting++;
+                lock (townhall.DoorLock)
+                {
+                    workerManager.workerWaiting--;
+                    townhall.lockTaken = true;
+                    townhall.DeliverGrain(this.currentResources);
+                    this.currentResources = 0;
+                    Thread.Sleep(1000);
+                    townhall.lockTaken = false;
+                }
+            }
+        }
+
+        public void CloseThread(Thread farmer)
+        {
+            farmer.IsBackground = true;
         }
 
         public void MoveToRectangle(Rectangle rectangle)
@@ -45,15 +77,23 @@ namespace TeknologiThreads
                     this.rectangle.X += 1;
                     Thread.Sleep(5);
                 }
-                else { this.rectangle.X -= 1; }
+                else 
+                {
+                    this.rectangle.X -= 1;
+                    Thread.Sleep(5);
+                }
 
                 if (rectangle.Center.Y > this.rectangle.Center.Y)
                 {
                     this.rectangle.Y += 1;
                     Thread.Sleep(5);
                 }
-                else { this.rectangle.Y -= 1; }
+                else 
+                { 
+                    this.rectangle.Y -= 1;
+                    Thread.Sleep(5);
+                }
             }
-        }   
+        }
     }
 }

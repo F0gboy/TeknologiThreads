@@ -23,7 +23,7 @@ namespace TeknologiThreads
 
         public void GenerateGold(Miner miner)
         {
-            miner.currentResources += 10;
+            miner.currentResources += 20;
         }
     }
 }
