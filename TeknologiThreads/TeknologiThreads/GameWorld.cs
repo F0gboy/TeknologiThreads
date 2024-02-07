@@ -20,6 +20,7 @@ namespace TeknologiThreads
         private Goldmine goldMine;
         private Windmill windmill;
         private Townhall townhall;
+        private Wonder wonder;
 
         private WorkerManager workerManager;
         private Farmer farmer;
@@ -27,6 +28,8 @@ namespace TeknologiThreads
 
         private SpriteFont font;
         private List<Button> _button;
+
+        private bool WonderBuilt = false;
 
         public GameWorld()
         {
@@ -51,6 +54,7 @@ namespace TeknologiThreads
             goldMine = new Goldmine();
             windmill = new Windmill();
             townhall = new Townhall();
+            wonder = new Wonder();
             workerManager = new WorkerManager(windmill, goldMine, townhall);
 
             goldMine.texture = Content.Load<Texture2D>("goldmine");
@@ -61,6 +65,9 @@ namespace TeknologiThreads
 
             townhall.texture = Content.Load<Texture2D>("townhall");
             townhall.rectangle = new Rectangle(700, 700, 250, 250);
+
+            wonder.texture = Content.Load<Texture2D>("wonder");
+            wonder.rectangle = new Rectangle(960, 540, 500, 500);
 
             font = Content.Load<SpriteFont>("font");
             
@@ -89,18 +96,35 @@ namespace TeknologiThreads
                wonderButton
             };
 
-           
-            
         }
 
         private void WonderButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WonderBuilt = true;
+            System.Threading.Thread.Sleep(7000);
+
+            foreach (var miners in workerManager.MinerList)
+            {
+                miners.CloseThread(miners.miner);
+            }
+
+            foreach (var farmer in workerManager.FarmerList)
+            {
+                farmer.CloseThread(farmer.farmer);
+            }
+
+            Exit();
         }
 
         private void RandomButton_Click(object sender, System.EventArgs e)
         {
-            throw new System.NotImplementedException();
+            if (townhall.Grain >= 50 && workerManager.MinerList.Count < 5)
+            {
+                Miner miner = new Miner(townhall, goldMine, workerManager);
+                miner.texture = Content.Load<Texture2D>("orc");
+                workerManager.Miners.Add(miner);
+                townhall.Grain -= 50;
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -111,15 +135,6 @@ namespace TeknologiThreads
                 Exit();
             }
 
-
-            if (townhall.Grain >= 50 && workerManager.MinerList.Count < 5)
-            {
-                Miner miner = new Miner(townhall, goldMine, workerManager);
-                miner.texture = Content.Load<Texture2D>("orc");
-                workerManager.Miners.Add(miner);
-                townhall.Grain -= 50;
-            }
-
             if (townhall.Grain >= 20 && workerManager.FarmerList.Count < 5)
             {
                 Farmer farmer = new Farmer(windmill, townhall, workerManager);
@@ -128,25 +143,8 @@ namespace TeknologiThreads
                 townhall.Grain -= 20;
             }
 
-            if (townhall.Gold >= 400)
-            {
-                foreach (var miners in workerManager.MinerList)
-                {
-                    miners.CloseThread(miners.miner);
-                }
-
-                foreach (var farmer in workerManager.FarmerList)
-                {
-                    farmer.CloseThread(farmer.farmer);
-                }
-
-                Exit();
-            }
-
             foreach (var button in _button)
                 button.Update(gameTime);
-
-            
 
             base.Update(gameTime);
         }
@@ -157,6 +155,11 @@ namespace TeknologiThreads
             _spriteBatch.Begin();
 
             // TODO: Add your drawing code here
+            if (WonderBuilt)
+            {
+                _spriteBatch.Draw(wonder.texture, wonder.rectangle, Color.White);
+            }
+
             _spriteBatch.Draw(goldMine.texture, goldMine.rectangle, Color.White);
             _spriteBatch.Draw(windmill.texture, windmill.rectangle, Color.White);
             _spriteBatch.Draw(townhall.texture, townhall.rectangle, Color.White);
@@ -173,8 +176,8 @@ namespace TeknologiThreads
 
             _spriteBatch.DrawString(font, "Gold: " + townhall.Gold, new Vector2(10, 10), Color.White);
             _spriteBatch.DrawString(font, "Grain: " + townhall.Grain, new Vector2(150, 10), Color.White);
-            _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(300, 10), Color.White);
-            _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(500, 10), Color.White);
+            _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count + "/5", new Vector2(300, 10), Color.White);
+            _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count + "/5", new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
             
             _spriteBatch.End();
