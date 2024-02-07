@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using TeknologiThreads.Content;
 
 namespace TeknologiThreads
 {
@@ -24,6 +26,7 @@ namespace TeknologiThreads
         private Miner miner;
 
         private SpriteFont font;
+        private List<Button> _button;
 
         public GameWorld()
         {
@@ -63,6 +66,41 @@ namespace TeknologiThreads
             
 
             // TODO: use this.Content to load your game content here
+
+            var randomButton = new Button(Content.Load<Texture2D>("MinerButton1"), Content.Load<SpriteFont>("File"))
+            {
+                Position = new Vector2(500, 900),
+                Text = "",
+            };
+
+            randomButton.Click += RandomButton_Click;
+
+            var wonderButton = new Button(Content.Load<Texture2D>("WonderButtonT1"), Content.Load<SpriteFont>("File"))
+            {
+                Position = new Vector2(1100, 900),
+                Text= ""
+            };
+
+            wonderButton.Click += WonderButton_Click; 
+
+            _button = new List<Button>()
+            {
+               randomButton,
+               wonderButton
+            };
+
+           
+            
+        }
+
+        private void WonderButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RandomButton_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override void Update(GameTime gameTime)
@@ -105,6 +143,11 @@ namespace TeknologiThreads
                 Exit();
             }
 
+            foreach (var button in _button)
+                button.Update(gameTime);
+
+            
+
             base.Update(gameTime);
         }
 
@@ -134,6 +177,15 @@ namespace TeknologiThreads
             _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
             
+            _spriteBatch.End();
+
+            _spriteBatch.Begin(); 
+
+            foreach (var button in _button)
+            {
+                button.Draw(gameTime, _spriteBatch);
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
