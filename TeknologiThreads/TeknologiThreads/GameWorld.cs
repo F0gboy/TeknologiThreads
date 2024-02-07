@@ -28,6 +28,7 @@ namespace TeknologiThreads
 
         private SpriteFont font;
         private List<Button> _button;
+        private Thread closegame;
 
         private bool WonderBuilt = false;
 
@@ -67,7 +68,7 @@ namespace TeknologiThreads
             townhall.rectangle = new Rectangle(700, 700, 250, 250);
 
             wonder.texture = Content.Load<Texture2D>("wonder");
-            wonder.rectangle = new Rectangle(960, 540, 500, 500);
+            wonder.rectangle = new Rectangle(650, 100, 750, 750);
 
             font = Content.Load<SpriteFont>("font");
             
@@ -101,7 +102,15 @@ namespace TeknologiThreads
         private void WonderButton_Click(object sender, EventArgs e)
         {
             WonderBuilt = true;
-            System.Threading.Thread.Sleep(7000);
+
+            closegame = new Thread(CloseGame);
+            closegame.Start();
+
+        }
+
+        private void CloseGame()
+        {
+            Thread.Sleep(6000);
 
             foreach (var miners in workerManager.MinerList)
             {
@@ -154,12 +163,6 @@ namespace TeknologiThreads
             GraphicsDevice.Clear(Color.Green);
             _spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
-            if (WonderBuilt)
-            {
-                _spriteBatch.Draw(wonder.texture, wonder.rectangle, Color.White);
-            }
-
             _spriteBatch.Draw(goldMine.texture, goldMine.rectangle, Color.White);
             _spriteBatch.Draw(windmill.texture, windmill.rectangle, Color.White);
             _spriteBatch.Draw(townhall.texture, townhall.rectangle, Color.White);
@@ -179,7 +182,14 @@ namespace TeknologiThreads
             _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count + "/5", new Vector2(300, 10), Color.White);
             _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count + "/5", new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
-            
+
+            if (WonderBuilt)
+            {
+                _spriteBatch.Draw(wonder.texture, wonder.rectangle, Color.White);
+                _spriteBatch.DrawString(font, "You Won!!", new Vector2(650, 400), Color.White);
+
+            }
+
             _spriteBatch.End();
 
             _spriteBatch.Begin(); 
