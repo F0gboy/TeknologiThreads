@@ -77,15 +77,15 @@ namespace TeknologiThreads
                 Miner miner = new Miner(townhall, goldMine, workerManager);
                 miner.texture = Content.Load<Texture2D>("orc");
                 workerManager.Miners.Add(miner);
-                townhall.Gold -= 50;
+                townhall.Grain -= 50;
             }
 
-            if (townhall.Gold >= 20 && workerManager.FarmerList.Count < 5)
+            if (townhall.Grain >= 20 && workerManager.FarmerList.Count < 5)
             {
                 Farmer farmer = new Farmer(windmill, townhall, workerManager);
                 farmer.texture = Content.Load<Texture2D>("orc");
                 workerManager.Farmers.Add(farmer);
-                townhall.Gold -= 20;
+                townhall.Grain -= 20;
             }
 
             //if (townhall.Gold >= 100)
@@ -128,9 +128,10 @@ namespace TeknologiThreads
             }
 
             _spriteBatch.DrawString(font, "Gold: " + townhall.Gold, new Vector2(10, 10), Color.White);
-            _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(200, 10), Color.White);
-            _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(400, 10), Color.White);
-            _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(600, 10), Color.White);
+            _spriteBatch.DrawString(font, "Grain: " + townhall.Grain, new Vector2(150, 10), Color.White);
+            _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(300, 10), Color.White);
+            _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(500, 10), Color.White);
+            _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
 
             _spriteBatch.End();
 
