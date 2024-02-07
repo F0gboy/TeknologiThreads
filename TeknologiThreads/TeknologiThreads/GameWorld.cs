@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TeknologiThreads
@@ -66,13 +67,14 @@ namespace TeknologiThreads
 
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (townhall.Grain >= 50 && workerManager.MinerList.Count < 5)
             {
                 Miner miner = new Miner(townhall, goldMine, workerManager);
                 miner.texture = Content.Load<Texture2D>("orc");
@@ -88,21 +90,20 @@ namespace TeknologiThreads
                 townhall.Grain -= 20;
             }
 
-            //if (townhall.Gold >= 100)
-            //{
-            //    foreach (var miners in workerManager.MinerList)
-            //    {
-            //        miners.CloseThread(miners.miner);
-            //    }
+            if (townhall.Gold >= 400)
+            {
+                foreach (var miners in workerManager.MinerList)
+                {
+                    miners.CloseThread(miners.miner);
+                }
 
-            //    foreach (var farmer in workerManager.FarmerList)
-            //    {
-            //        farmer.CloseThread(farmer.farmer);
-            //    }
+                foreach (var farmer in workerManager.FarmerList)
+                {
+                    farmer.CloseThread(farmer.farmer);
+                }
 
-            //    Exit();
-            //}
-
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -132,7 +133,7 @@ namespace TeknologiThreads
             _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(300, 10), Color.White);
             _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
-
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);

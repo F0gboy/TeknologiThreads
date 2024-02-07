@@ -14,6 +14,8 @@ namespace TeknologiThreads
         Goldmine goldmine;
         WorkerManager workerManager;
         public Thread miner;
+        private Semaphore MineSemaphore;
+        private Semaphore TownhallSemaphore;
 
         public Miner(Townhall townhall, Goldmine goldmine, WorkerManager workerManager)
         {
@@ -21,6 +23,12 @@ namespace TeknologiThreads
             this.townhall = townhall;
             this.goldmine = goldmine;
             this.workerManager = workerManager;
+
+            MineSemaphore = new Semaphore(0, 2);
+            TownhallSemaphore = new Semaphore(0, 2);
+
+            MineSemaphore.Release(2);
+            TownhallSemaphore.Release(2);
 
             miner = new Thread(MinerWork);
             miner.Start();
@@ -33,31 +41,35 @@ namespace TeknologiThreads
                 MoveToRectangle(goldmine.rectangle);
 
                 workerManager.workerWaiting++;
-                lock (goldmine.DoorLock)
-                {
-                    workerManager.workerWaiting--;
-                    goldmine.lockTaken = true;
-                    // Generate Gold
-                    goldmine.GenerateGold(this);
 
-                    // "Work"
-                    Thread.Sleep(5000);
-                    goldmine.lockTaken = false;
-                }
+                MineSemaphore.WaitOne();
 
+                workerManager.workerWaiting--;
+
+                // Generate Gold
+                goldmine.GenerateGold(this);
+
+                // "Work"
+                Thread.Sleep(5000);
+                
+                MineSemaphore.Release();
+                
                 // Move to townhall
                 MoveToRectangle(townhall.rectangle);
 
                 workerManager.workerWaiting++;
-                lock (townhall.DoorLock)
-                {
-                    workerManager.workerWaiting--;
-                    townhall.lockTaken = true;
-                    townhall.DeliverGold(this.currentResources);
-                    this.currentResources = 0;
-                    Thread.Sleep(1000);
-                    townhall.lockTaken = false;
-                }
+
+                TownhallSemaphore.WaitOne();
+
+                workerManager.workerWaiting--;
+                townhall.lockTaken = true;
+                townhall.DeliverGold(this.currentResources);
+                this.currentResources = 0;
+                Thread.Sleep(1000);
+                townhall.lockTaken = false;
+
+                TownhallSemaphore.Release();
+
             }
         }
 
@@ -73,23 +85,23 @@ namespace TeknologiThreads
                 if (rectangle.Center.X > this.rectangle.Center.X)
                 {
                     this.rectangle.X += 1;
-                    Thread.Sleep(2);
+                    Thread.Sleep(1);
                 }
                 else 
                 {
                     this.rectangle.X -= 1;
-                    Thread.Sleep(2);
+                    Thread.Sleep(1);
                 }
 
                 if (rectangle.Center.Y > this.rectangle.Center.Y)
                 {
                     this.rectangle.Y += 1;
-                    Thread.Sleep(2);
+                    Thread.Sleep(1);
                 }
                 else 
                 {
                     this.rectangle.Y -= 1;
-                    Thread.Sleep(2);
+                    Thread.Sleep(1);
                 }
             }
         }
