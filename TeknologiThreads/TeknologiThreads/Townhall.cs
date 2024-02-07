@@ -9,8 +9,8 @@ namespace TeknologiThreads
 {
     internal class Townhall : Building
     {
-        public int Gold = 80;
-        public int Grain;
+        public int Gold;
+        public int Grain = 20;
 
         public Townhall()
         {
@@ -28,7 +28,7 @@ namespace TeknologiThreads
         }
         public void DeliverGrain(int grainAmount)
         {
-            Gold += grainAmount;
+            Grain += grainAmount;
         }
         public void DeliverGold(int goldAmount)
         {
