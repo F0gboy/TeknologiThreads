@@ -5,7 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using TeknologiThreads.Content;
 
 namespace TeknologiThreads
 {
@@ -23,6 +26,7 @@ namespace TeknologiThreads
         private Miner miner;
 
         private SpriteFont font;
+        private List<Button> _button;
 
         public GameWorld()
         {
@@ -62,17 +66,53 @@ namespace TeknologiThreads
             
 
             // TODO: use this.Content to load your game content here
+
+            var randomButton = new Button(Content.Load<Texture2D>("MinerButton1"), Content.Load<SpriteFont>("File"))
+            {
+                Position = new Vector2(500, 900),
+                Text = "",
+            };
+
+            randomButton.Click += RandomButton_Click;
+
+            var wonderButton = new Button(Content.Load<Texture2D>("WonderButtonT1"), Content.Load<SpriteFont>("File"))
+            {
+                Position = new Vector2(1100, 900),
+                Text= ""
+            };
+
+            wonderButton.Click += WonderButton_Click; 
+
+            _button = new List<Button>()
+            {
+               randomButton,
+               wonderButton
+            };
+
+           
+            
+        }
+
+        private void WonderButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RandomButton_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (townhall.Grain >= 50 && workerManager.MinerList.Count < 5)
             {
                 Miner miner = new Miner(townhall, goldMine, workerManager);
                 miner.texture = Content.Load<Texture2D>("orc");
@@ -88,21 +128,25 @@ namespace TeknologiThreads
                 townhall.Grain -= 20;
             }
 
-            //if (townhall.Gold >= 100)
-            //{
-            //    foreach (var miners in workerManager.MinerList)
-            //    {
-            //        miners.CloseThread(miners.miner);
-            //    }
+            if (townhall.Gold >= 400)
+            {
+                foreach (var miners in workerManager.MinerList)
+                {
+                    miners.CloseThread(miners.miner);
+                }
 
-            //    foreach (var farmer in workerManager.FarmerList)
-            //    {
-            //        farmer.CloseThread(farmer.farmer);
-            //    }
+                foreach (var farmer in workerManager.FarmerList)
+                {
+                    farmer.CloseThread(farmer.farmer);
+                }
 
-            //    Exit();
-            //}
+                Exit();
+            }
 
+            foreach (var button in _button)
+                button.Update(gameTime);
+
+            
 
             base.Update(gameTime);
         }
@@ -132,6 +176,15 @@ namespace TeknologiThreads
             _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count, new Vector2(300, 10), Color.White);
             _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count, new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
+            
+            _spriteBatch.End();
+
+            _spriteBatch.Begin(); 
+
+            foreach (var button in _button)
+            {
+                button.Draw(gameTime, _spriteBatch);
+            }
 
             _spriteBatch.End();
 

@@ -75,23 +75,23 @@ namespace TeknologiThreads
                 if (rectangle.Center.X > this.rectangle.Center.X)
                 {
                     this.rectangle.X += 1;
-                    Thread.Sleep(5);
+                    Thread.Sleep(2);
                 }
                 else 
                 {
                     this.rectangle.X -= 1;
-                    Thread.Sleep(5);
+                    Thread.Sleep(2);
                 }
 
                 if (rectangle.Center.Y > this.rectangle.Center.Y)
                 {
                     this.rectangle.Y += 1;
-                    Thread.Sleep(5);
+                    Thread.Sleep(2);
                 }
                 else 
                 { 
                     this.rectangle.Y -= 1;
-                    Thread.Sleep(5);
+                    Thread.Sleep(2);
                 }
             }
         }
