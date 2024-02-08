@@ -32,6 +32,7 @@ namespace TeknologiThreads
             TownhallSemaphore.Release(2);
 
             miner = new Thread(MinerWork);
+            miner.IsBackground = true;
             miner.Start();
         }
 
@@ -88,10 +89,10 @@ namespace TeknologiThreads
         }
 
         // Close miner thread
-        public void CloseThread(Thread miner)
-        {
-            miner.IsBackground = true;
-        }
+        //public void CloseThread(Thread miner)
+        //{
+        //    miner.IsBackground = true;
+        //}
 
         // Move miner to rectangle
         public void MoveToRectangle(Rectangle rectangle)
