@@ -121,9 +121,9 @@ namespace TeknologiThreads
             }
         }
 
-        //private void CloseGame()
-        //{
-        //    Thread.Sleep(6000);
+        private void CloseGame()
+        {
+            Thread.Sleep(6000);
 
             Exit();
         }
@@ -143,6 +143,8 @@ namespace TeknologiThreads
 
         protected override void Update(GameTime gameTime)
         {
+
+        KeyboardState Keystate = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
