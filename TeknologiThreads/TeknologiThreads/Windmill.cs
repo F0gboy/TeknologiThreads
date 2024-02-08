@@ -14,6 +14,7 @@ namespace TeknologiThreads
             
         }
 
+        // Method to generate grain
         public void GenerateGrain(Farmer farmer)
         {
             farmer.currentResources += 10;

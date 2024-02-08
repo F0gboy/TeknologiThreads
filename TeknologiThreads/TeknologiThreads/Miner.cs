@@ -10,6 +10,7 @@ namespace TeknologiThreads
 {
     internal class Miner : Worker
     {
+
         Townhall townhall;
         Goldmine goldmine;
         WorkerManager workerManager;
@@ -33,51 +34,66 @@ namespace TeknologiThreads
             miner = new Thread(MinerWork);
             miner.Start();
         }
+
         public void MinerWork()
         {
+            // Miner work loop
             while (true)
             {
                 // Move to goldmine
                 MoveToRectangle(goldmine.rectangle);
 
+                // Update worker waiting counter
                 workerManager.workerWaiting++;
 
+                // Wait for semaphore (other workers)
                 MineSemaphore.WaitOne();
+
+                // Update worker waiting counter
 
                 workerManager.workerWaiting--;
 
-                // Generate Gold
+                // Generate Gold from goldmine
                 goldmine.GenerateGold(this);
 
                 // "Work"
                 Thread.Sleep(5000);
                 
+                // Release semaphore to allow other workers to work
                 MineSemaphore.Release();
                 
                 // Move to townhall
                 MoveToRectangle(townhall.rectangle);
 
+                // Update worker waiting counter
                 workerManager.workerWaiting++;
 
+                // Wait for semaphore (other workers)
                 TownhallSemaphore.WaitOne();
 
+                // Update worker waiting counter
                 workerManager.workerWaiting--;
+
+                // Deliver gold to townhall
                 townhall.lockTaken = true;
                 townhall.DeliverGold(this.currentResources);
                 this.currentResources = 0;
                 Thread.Sleep(1000);
                 townhall.lockTaken = false;
 
+                // Release semaphore to allow other workers to work
                 TownhallSemaphore.Release();
 
             }
         }
 
+        // Close miner thread
         public void CloseThread(Thread miner)
         {
             miner.IsBackground = true;
         }
 
+        // Move miner to rectangle
         public void MoveToRectangle(Rectangle rectangle)
         {
             while (rectangle.Center != this.rectangle.Center)

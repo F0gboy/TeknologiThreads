@@ -14,6 +14,7 @@ namespace TeknologiThreads
             
         }
 
+        // Method to generate gold
         public void GenerateGold(Miner miner)
         {
             miner.currentResources += 20;

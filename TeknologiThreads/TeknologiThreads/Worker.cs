@@ -20,10 +20,5 @@ namespace TeknologiThreads
         {
             
         }
-
-        public void MoveToPoint(Building building)
-        {
-        
-        }
     }
 }

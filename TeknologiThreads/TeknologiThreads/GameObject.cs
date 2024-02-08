@@ -17,9 +17,6 @@ namespace TeknologiThreads
         public GameObject()
         {
 
-
-        }
-
-       
+        }       
     }
 }

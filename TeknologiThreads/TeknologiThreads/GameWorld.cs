@@ -52,6 +52,7 @@ namespace TeknologiThreads
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            
             goldMine = new Goldmine();
             windmill = new Windmill();
             townhall = new Townhall();
@@ -101,11 +102,15 @@ namespace TeknologiThreads
 
         private void WonderButton_Click(object sender, EventArgs e)
         {
-            WonderBuilt = true;
+            if (townhall.Gold >= 250) 
+            {
+                WonderBuilt = true;
 
-            closegame = new Thread(CloseGame);
-            closegame.Start();
+                townhall.Gold -= 250;
 
+                closegame = new Thread(CloseGame);
+                closegame.Start();
+            }
         }
 
         private void CloseGame()
