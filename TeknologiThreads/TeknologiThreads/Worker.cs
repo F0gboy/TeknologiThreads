@@ -26,12 +26,12 @@ namespace TeknologiThreads
         
         }
 
-        public void OnCollision(GameObject other)
-        {
-            if (other is Building)
-            {
-                speed = 0;
-            }
-        }
+        //public void OnCollision(GameObject other)
+        //{
+        //    if (other is Building)
+        //    {
+        //        speed = 0;
+        //    }
+        //}
     }
 }
