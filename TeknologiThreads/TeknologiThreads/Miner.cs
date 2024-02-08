@@ -17,6 +17,7 @@ namespace TeknologiThreads
         public Thread miner;
         private Semaphore MineSemaphore;
         private Semaphore TownhallSemaphore;
+        public bool run = true;
 
         public Miner(Townhall townhall, Goldmine goldmine, WorkerManager workerManager)
         {
@@ -39,7 +40,7 @@ namespace TeknologiThreads
         public void MinerWork()
         {
             // Miner work loop
-            while (true)
+            while (true && run)
             {
                 // Move to goldmine
                 MoveToRectangle(goldmine.rectangle);
@@ -89,10 +90,10 @@ namespace TeknologiThreads
         }
 
         // Close miner thread
-        //public void CloseThread(Thread miner)
-        //{
-        //    miner.IsBackground = true;
-        //}
+        public void CloseThread(Thread miner)
+        {
+            run = false;
+        }
 
         // Move miner to rectangle
         public void MoveToRectangle(Rectangle rectangle)
