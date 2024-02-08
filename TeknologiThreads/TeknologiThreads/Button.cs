@@ -61,7 +61,7 @@ namespace TeknologiThreads.Content
         {
             var colour = Color.White;
 
-            // Change the colour of the button when hovering
+            // Change the color of the button when hovering
             if (_isHovering)
             {
                 colour = Color.Gray;
@@ -89,7 +89,7 @@ namespace TeknologiThreads.Content
 
             _isHovering = false;
 
-            // Change the colour of the button when hovering
+            // Change the color of the button when hovering
             if (mouseRectangle.Intersects(Rectangle))
             {
                 _isHovering = true;

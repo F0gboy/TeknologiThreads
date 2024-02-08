@@ -116,6 +116,7 @@ namespace TeknologiThreads
 
                 // Start a new thread to wait a little before closing the game
                 closegame = new Thread(CloseGame);
+                closegame.IsBackground = true;
                 closegame.Start();
             }
         }
@@ -123,18 +124,6 @@ namespace TeknologiThreads
         private void CloseGame()
         {
             Thread.Sleep(6000);
-
-            // Close all miner threads
-            foreach (var miners in workerManager.MinerList)
-            {
-                miners.CloseThread(miners.miner);
-            }
-
-            // Close all farmer threads
-            foreach (var farmer in workerManager.FarmerList)
-            {
-                farmer.CloseThread(farmer.farmer);
-            }
 
             Exit();
         }
@@ -154,7 +143,6 @@ namespace TeknologiThreads
 
         protected override void Update(GameTime gameTime)
         {
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();

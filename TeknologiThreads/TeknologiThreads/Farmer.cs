@@ -15,6 +15,7 @@ namespace TeknologiThreads
         Townhall townhall;
         WorkerManager workerManager;
         public Thread farmer;
+        public bool run = true;
 
         public Farmer(Windmill windmill, Townhall townhall, WorkerManager workerManager) 
         {
@@ -23,14 +24,15 @@ namespace TeknologiThreads
             this.townhall = townhall;
             this.workerManager = workerManager;
 
-            farmer = new Thread(FarmerWork); 
+            farmer = new Thread(FarmerWork);
+            farmer.IsBackground = true;
             farmer.Start();
         }
 
         public void FarmerWork()
         {
             // Farmer work loop
-            while (true)
+            while (true && run)
             {
                 // Move to windmill
                 MoveToRectangle(windmill.rectangle);
@@ -78,7 +80,7 @@ namespace TeknologiThreads
         // Method to close the thread
         public void CloseThread(Thread farmer)
         {
-            farmer.IsBackground = true;
+            run = false;
         }
 
         // Method to move the worker to a specific rectangle
