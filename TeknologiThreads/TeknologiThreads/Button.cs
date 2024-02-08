@@ -56,10 +56,12 @@ namespace TeknologiThreads.Content
             PenColour = Color.Black;
         }
 
+        // Draw method for the button
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var colour = Color.White;
 
+            // Change the colour of the button when hovering
             if (_isHovering)
             {
                 colour = Color.Gray;
@@ -67,6 +69,7 @@ namespace TeknologiThreads.Content
 
             spriteBatch.Draw(_buttonTexture, Rectangle, colour);
 
+            // Draw the text in the middle of the button
             if (!string.IsNullOrEmpty(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
@@ -76,6 +79,7 @@ namespace TeknologiThreads.Content
             }
         }
 
+        // Update method for the button
         public void Update(GameTime gameTime)
         {
             _previouseMouse = _currentMouse;
@@ -85,6 +89,7 @@ namespace TeknologiThreads.Content
 
             _isHovering = false;
 
+            // Change the colour of the button when hovering
             if (mouseRectangle.Intersects(Rectangle))
             {
                 _isHovering = true;

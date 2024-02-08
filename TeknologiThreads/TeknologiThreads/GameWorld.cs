@@ -17,11 +17,13 @@ namespace TeknologiThreads
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // Create buildings
         private Goldmine goldMine;
         private Windmill windmill;
         private Townhall townhall;
         private Wonder wonder;
 
+        // Create workers
         private WorkerManager workerManager;
         private Farmer farmer;
         private Miner miner;
@@ -52,12 +54,15 @@ namespace TeknologiThreads
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Create buildings
             goldMine = new Goldmine();
             windmill = new Windmill();
             townhall = new Townhall();
             wonder = new Wonder();
+
             workerManager = new WorkerManager(windmill, goldMine, townhall);
 
+            // Load textures and set rectangles
             goldMine.texture = Content.Load<Texture2D>("goldmine");
             goldMine.rectangle = new Rectangle(300, 100, 150, 150);
 
@@ -73,8 +78,8 @@ namespace TeknologiThreads
             font = Content.Load<SpriteFont>("font");
             
 
-            // TODO: use this.Content to load your game content here
-
+            
+            // Create buttons
             var randomButton = new Button(Content.Load<Texture2D>("MinerButton1"), Content.Load<SpriteFont>("File"))
             {
                 Position = new Vector2(500, 900),
@@ -101,22 +106,31 @@ namespace TeknologiThreads
 
         private void WonderButton_Click(object sender, EventArgs e)
         {
-            WonderBuilt = true;
+            // Check if the townhall has enough gold to build the wonder
+            if (townhall.Gold >= 250) 
+            {
+                // Set the wonder built to true
+                WonderBuilt = true;
 
-            closegame = new Thread(CloseGame);
-            closegame.Start();
+                townhall.Gold -= 250;
 
+                // Start a new thread to wait a little before closing the game
+                closegame = new Thread(CloseGame);
+                closegame.Start();
+            }
         }
 
         private void CloseGame()
         {
             Thread.Sleep(6000);
 
+            // Close all miner threads
             foreach (var miners in workerManager.MinerList)
             {
                 miners.CloseThread(miners.miner);
             }
 
+            // Close all farmer threads
             foreach (var farmer in workerManager.FarmerList)
             {
                 farmer.CloseThread(farmer.farmer);
@@ -125,10 +139,12 @@ namespace TeknologiThreads
             Exit();
         }
 
+        // Button to create a new miner
         private void RandomButton_Click(object sender, System.EventArgs e)
         {
             if (townhall.Grain >= 50 && workerManager.MinerList.Count < 5)
             {
+                // Create a new miner
                 Miner miner = new Miner(townhall, goldMine, workerManager);
                 miner.texture = Content.Load<Texture2D>("orc");
                 workerManager.Miners.Add(miner);
@@ -144,6 +160,7 @@ namespace TeknologiThreads
                 Exit();
             }
 
+            // Check if the townhall has enough grain to create a new farmer automatically
             if (townhall.Grain >= 20 && workerManager.FarmerList.Count < 5)
             {
                 Farmer farmer = new Farmer(windmill, townhall, workerManager);
@@ -167,22 +184,26 @@ namespace TeknologiThreads
             _spriteBatch.Draw(windmill.texture, windmill.rectangle, Color.White);
             _spriteBatch.Draw(townhall.texture, townhall.rectangle, Color.White);
 
+            // Draw miners
             foreach (var miner in workerManager.MinerList)
             {
                 _spriteBatch.Draw(miner.texture, miner.rectangle, Color.White);
             }
 
+            // Draw farmers
             foreach (var farmer in workerManager.FarmerList)
             {
                 _spriteBatch.Draw(farmer.texture, farmer.rectangle, Color.White);
             }
 
+            // Draw information
             _spriteBatch.DrawString(font, "Gold: " + townhall.Gold, new Vector2(10, 10), Color.White);
             _spriteBatch.DrawString(font, "Grain: " + townhall.Grain, new Vector2(150, 10), Color.White);
             _spriteBatch.DrawString(font, "Farmers: " + workerManager.FarmerList.Count + "/5", new Vector2(300, 10), Color.White);
             _spriteBatch.DrawString(font, "Miners: " + workerManager.MinerList.Count + "/5", new Vector2(500, 10), Color.White);
             _spriteBatch.DrawString(font, "Workers Waiting: " + workerManager.workerWaiting, new Vector2(700, 10), Color.White);
 
+            // Draw wonder
             if (WonderBuilt)
             {
                 _spriteBatch.Draw(wonder.texture, wonder.rectangle, Color.White);
@@ -190,10 +211,7 @@ namespace TeknologiThreads
 
             }
 
-            _spriteBatch.End();
-
-            _spriteBatch.Begin(); 
-
+            // Draw buttons
             foreach (var button in _button)
             {
                 button.Draw(gameTime, _spriteBatch);

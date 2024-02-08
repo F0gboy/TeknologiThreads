@@ -21,16 +21,6 @@ namespace TeknologiThreads
             
         }
 
-        public void GenerateFarmer(Farmer farmer)
-        {
-
-        }
-
-        public void GenerateMiner()
-        {
-            
-        }
-
         public List<Farmer> FarmerList
         {
             get { return Farmers; }

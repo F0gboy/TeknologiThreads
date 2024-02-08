@@ -20,18 +20,5 @@ namespace TeknologiThreads
         {
             
         }
-
-        public void MoveToPoint(Building building)
-        {
-        
-        }
-
-        //public void OnCollision(GameObject other)
-        //{
-        //    if (other is Building)
-        //    {
-        //        speed = 0;
-        //    }
-        //}
     }
 }

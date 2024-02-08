@@ -17,19 +17,13 @@ namespace TeknologiThreads
             
         }
 
-        public void GenerateMiner()
-        {
-            
-        }
-
-        public void GenerateFarmer() 
-        {
-            
-        }
+        // Method to deliver grain to the townhall
         public void DeliverGrain(int grainAmount)
         {
             Grain += grainAmount;
         }
+
+        // Method to deliver gold to the townhall
         public void DeliverGold(int goldAmount)
         {
             Gold += goldAmount;
