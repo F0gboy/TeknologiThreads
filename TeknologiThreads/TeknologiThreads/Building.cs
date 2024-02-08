@@ -13,9 +13,9 @@ namespace TeknologiThreads
     {
         public int currentWorkers;
         public int maxWorkers = 5;
+        public Object DoorLock = new Object();
         public bool lockTaken;
         public int TaskTime;
-        public Object DoorLock = new Object();
 
         public Building() 
         {
