@@ -29,17 +29,23 @@ namespace TeknologiThreads
 
         public void FarmerWork()
         {
+            // Farmer work loop
             while (true)
             {
                 // Move to windmill
                 MoveToRectangle(windmill.rectangle);
 
+                // Update worker waiting counter
                 workerManager.workerWaiting++;
+
+                // Wait for Lock (other workers)
                 lock (windmill.DoorLock) 
                 {
+                    // Update worker waiting counter
                     workerManager.workerWaiting--;
                     windmill.lockTaken = true;
-                    // Generate grain
+
+                    // Generate grain for this worker
                     windmill.GenerateGrain(this);
 
                     // "Work"
@@ -50,12 +56,18 @@ namespace TeknologiThreads
                 // Move to townhall
                 MoveToRectangle(townhall.rectangle);
 
+                // Update worker waiting counter
                 workerManager.workerWaiting++;
+
+                // Wait for Lock (other workers)
                 lock (townhall.DoorLock)
                 {
                     workerManager.workerWaiting--;
                     townhall.lockTaken = true;
+
+                    // Deliver grain to townhall
                     townhall.DeliverGrain(this.currentResources);
+
                     this.currentResources = 0;
                     Thread.Sleep(1000);
                     townhall.lockTaken = false;
@@ -63,11 +75,13 @@ namespace TeknologiThreads
             }
         }
 
+        // Method to close the thread
         public void CloseThread(Thread farmer)
         {
             farmer.IsBackground = true;
         }
 
+        // Method to move the worker to a specific rectangle
         public void MoveToRectangle(Rectangle rectangle)
         {
             while (rectangle.Center != this.rectangle.Center)
