@@ -121,9 +121,9 @@ namespace TeknologiThreads
             }
         }
 
-        //private void CloseGame()
-        //{
-        //    Thread.Sleep(6000);
+        private void CloseGame()
+        {
+            Thread.Sleep(6000);
 
             Exit();
         }
